@@ -16,6 +16,7 @@ public class PatientController {
         this.repository = repository;
     }
 
+    @CrossOrigin
     @GetMapping("/patients")
     List<Patient> all() {
         return repository.findAll();
@@ -26,9 +27,8 @@ public class PatientController {
         return repository.save(newPatient);
     }
 
-    @GetMapping("/employees/{id}")
+    @GetMapping("/patients/{id}")
     Patient one(@PathVariable Long id) {
-
         return repository.findById(id)
                 .orElseThrow(() -> new PatientNotFoundException(id));
     }
