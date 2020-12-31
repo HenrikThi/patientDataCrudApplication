@@ -10,4 +10,5 @@ public class PatientDataCrudApplication {
 		SpringApplication.run(PatientDataCrudApplication.class, args);
 	}
 
+	
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class PatientController {
 
     private final PatientRepository repository;
@@ -22,17 +23,19 @@ public class PatientController {
         return repository.findAll();
     }
 
+    @CrossOrigin
     @PostMapping("/patients")
     Patient newPatient(@RequestBody Patient newPatient) {
         return repository.save(newPatient);
     }
 
+    @CrossOrigin
     @GetMapping("/patients/{id}")
     Patient one(@PathVariable Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new PatientNotFoundException(id));
     }
-
+    @CrossOrigin
     @PutMapping("/patients/{id}")
     Patient replaceEmployee(@RequestBody Patient newPatient, @PathVariable Long id) {
         return repository.findById(id)
@@ -48,7 +51,7 @@ public class PatientController {
                     return repository.save(newPatient);
                 });
     }
-
+    @CrossOrigin
     @DeleteMapping("/patients/{id}")
     void deleteEmployee(@PathVariable Long id) {
         repository.deleteById(id);
