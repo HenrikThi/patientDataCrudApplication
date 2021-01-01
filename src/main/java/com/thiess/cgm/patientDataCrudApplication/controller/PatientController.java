@@ -20,13 +20,13 @@ public class PatientController {
 
     @CrossOrigin
     @GetMapping("/patients")
-    List<Patient> all() {
+    public List<Patient> all() {
         return repository.findAll();
     }
 
     @CrossOrigin
     @PostMapping("/patients")
-    Patient newPatient(@RequestBody Patient newPatient) {
+    public Patient newPatient(@RequestBody Patient newPatient) {
         if (repository.findAll().contains(newPatient)) {
             throw new DuplicatedPatientException();
         } else {
@@ -36,14 +36,14 @@ public class PatientController {
 
     @CrossOrigin
     @GetMapping("/patients/{id}")
-    Patient one(@PathVariable Long id) {
+    public Patient one(@PathVariable Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new PatientNotFoundException(id));
     }
 
     @CrossOrigin
     @PutMapping("/patients/{id}")
-    Patient replaceEmployee(@RequestBody Patient newPatient, @PathVariable Long id) {
+    public Patient replaceEmployee(@RequestBody Patient newPatient, @PathVariable Long id) {
         if (repository.findAll().contains(newPatient))
             throw new DuplicatedPatientException();
         return repository.findById(id)
@@ -62,7 +62,7 @@ public class PatientController {
 
     @CrossOrigin
     @DeleteMapping("/patients/{id}")
-    void deleteEmployee(@PathVariable Long id) {
+    public void deleteEmployee(@PathVariable Long id) {
         repository.deleteById(id);
     }
 }
