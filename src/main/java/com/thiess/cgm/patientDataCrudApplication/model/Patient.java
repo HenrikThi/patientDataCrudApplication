@@ -3,6 +3,7 @@ package com.thiess.cgm.patientDataCrudApplication.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Patient {
@@ -66,5 +67,18 @@ public class Patient {
         this.city = city;
     }
 
-    //TODO: add equals, hashcode and toString
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName+lastName+street+city);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+        if (!(obj instanceof Patient))
+            return false;
+        Patient that = (Patient)obj;
+        return this.firstName.equals(that.firstName) && this.lastName.equals(that.lastName) && this.street.equals(that.street) && this.city.equals(that.city);
+    }
 }

@@ -1,5 +1,6 @@
 package com.thiess.cgm.patientDataCrudApplication.controller;
 
+import com.thiess.cgm.patientDataCrudApplication.DuplicatedPatientException;
 import com.thiess.cgm.patientDataCrudApplication.PatientNotFoundException;
 import com.thiess.cgm.patientDataCrudApplication.model.Patient;
 import com.thiess.cgm.patientDataCrudApplication.repository.PatientRepository;
@@ -26,7 +27,11 @@ public class PatientController {
     @CrossOrigin
     @PostMapping("/patients")
     Patient newPatient(@RequestBody Patient newPatient) {
-        return repository.save(newPatient);
+        if (repository.findAll().contains(newPatient)) {
+            throw new DuplicatedPatientException();
+        } else {
+            return repository.save(newPatient);
+        }
     }
 
     @CrossOrigin
@@ -35,6 +40,7 @@ public class PatientController {
         return repository.findById(id)
                 .orElseThrow(() -> new PatientNotFoundException(id));
     }
+
     @CrossOrigin
     @PutMapping("/patients/{id}")
     Patient replaceEmployee(@RequestBody Patient newPatient, @PathVariable Long id) {
@@ -51,6 +57,7 @@ public class PatientController {
                     return repository.save(newPatient);
                 });
     }
+
     @CrossOrigin
     @DeleteMapping("/patients/{id}")
     void deleteEmployee(@PathVariable Long id) {
