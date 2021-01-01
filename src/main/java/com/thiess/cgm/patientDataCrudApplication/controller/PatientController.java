@@ -44,6 +44,8 @@ public class PatientController {
     @CrossOrigin
     @PutMapping("/patients/{id}")
     Patient replaceEmployee(@RequestBody Patient newPatient, @PathVariable Long id) {
+        if (repository.findAll().contains(newPatient))
+            throw new DuplicatedPatientException();
         return repository.findById(id)
                 .map(patient -> {
                     patient.setFirstName(newPatient.getFirstName());
