@@ -7,6 +7,7 @@ import com.thiess.cgm.patientDataCrudApplication.repository.PatientRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -20,7 +21,10 @@ public class PatientController {
 
     @CrossOrigin
     @GetMapping("/patients")
-    public List<Patient> all() {
+    public List<Patient> all(@RequestParam("last-name") Optional<String> lastName) {
+        if (lastName.isPresent()) {
+            return repository.findByLastNameContaining(lastName.get());
+        }
         return repository.findAll();
     }
 
