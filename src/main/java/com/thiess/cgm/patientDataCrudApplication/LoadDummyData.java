@@ -8,16 +8,24 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Arrays;
+import java.util.Random;
+
 @Configuration
 public class LoadDummyData {
     private static final Logger log = LoggerFactory.getLogger(LoadDummyData.class);
+
+    private final String[] NAMES = {"Marian Fogleman", "Darcy Wisecarver", "Danae Solorzano", "Selena Mcbay", "Leopoldo Hudkins", "Su Kleiner", "Brunilda Harty", "Dion Blanck", "Missy Pritchett", "Reggie Blom", "Lavonia Hurd", "Danielle Peter", "Anissa Vieira", "Mayme Cappiello", "Zena Slama", "Brain Herrick", "Fredia Hollmann", "Susan Grunwald", "Naomi Loiselle", "Arlie Dear", "Marline Medel", "Lizzette Borgia", "Traci Stano", "Douglas Linares", "Pierre Jeffries", "Tonya Vince", "Matilda Andrus", "Ladonna Inge", "Sonya Luedtke", "Cinderella Peredo"};
+    private final String[] STREETS = {"Kaiserstraße", "Lindenstraße", "Taunusstraße", "Mainzer-Tor-Anlage", "Birkenstraße"};
 
     @Bean
     CommandLineRunner initDatabase(PatientRepository repository) {
 
         return args -> {
-            log.info("Preloading " + repository.save(new Patient("Henrik", "Thiess", "Saalburgweg 2", "61169 Friedberg")));
-            log.info("Preloading " + repository.save(new Patient("Otto", "Brune", "Ginsterweg 2", "61169 Friedberg")));
+            Arrays.stream(NAMES).forEach(name -> {
+                String[] firstAndLastname = name.split(" ");
+                log.info("Preloading " + repository.save(new Patient(firstAndLastname[0], firstAndLastname[1], STREETS[new Random().nextInt(STREETS.length)] + " " + new Random().nextInt(20) + 1, "61169 Friedberg")));
+            });
         };
     }
 
